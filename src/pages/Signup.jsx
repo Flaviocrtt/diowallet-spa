@@ -2,21 +2,12 @@ import logo from "../assets/logo.png";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { BiArrowBack } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorInput from "../components/ErrorInput";
-
-const signupSchema = z.object({
-    name: z.string().min(2).trim(),
-    email: z.string().nonempty("email é obrigatório").email().toLowerCase(),
-    password: z.string().min(4, "digite pelo menos 4 caractaeres"),
-    confirmPassword: z.string(),
-}).refine((data) => data.password == data.confirmPassword,{
-    message: "as senhas não correspondem",
-    path:["confirmPassword"]
-} )
+import { signupSchema } from "../schemas/signupSchema";
+import { signup } from "../services/user";
 
 export default function Signup(){
 
@@ -25,10 +16,16 @@ export default function Signup(){
            formState: {errors}
        } =  useForm({resolver: zodResolver(signupSchema)});
    
+       const navigate = useNavigate();
 
-    function handleSubmitForm(data){
-        console.log(data);
-        
+    async function handleSubmitForm(data){
+        try{
+            const response = await signup(data);
+            console.log(response);
+            navigate("/signin");
+        }catch(e){
+            console.log(e);
+        }        
     }
 
     return (
