@@ -6,7 +6,8 @@ import Input from "../components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorInput from "../components/ErrorInput";
 import { signinSchema } from "../schemas/signinSchema";
-
+import { signin } from "../services/user";
+import Cookies from 'js-cookie';
 
 
 export default function Signin(){
@@ -15,9 +16,13 @@ export default function Signin(){
         formState: {errors}
     } =  useForm({resolver: zodResolver(signinSchema)});
 
-    function handleSubmitForm(data){
-        console.log(data);
-        
+    async function handleSubmitForm(data){
+        try{
+            const token = await signin(data);
+            Cookies.set('token', token.data, {expires: 1})
+        }catch(e){
+            console.log(e);
+        } 
     }
 
     return (
@@ -32,9 +37,7 @@ export default function Signin(){
                 <Button type="submit" text="SIGNIN"/>
                 
                 <p className="text-white text-2xl">Do not you have an account? <Link to="/signup" className="text-sky-400 hover:text-sky-600">Register</Link></p>
-
             </form> 
-
         </div>
     )
 }

@@ -6,3 +6,8 @@ export async function signup(data){
     const response = axios.post(BASE_URL + '/signup', data );
     return response;
 }
+
+export async function signin(data){
+    const response = axios.post(BASE_URL + '/signin', data );
+    return response;
+}
