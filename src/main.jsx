@@ -8,6 +8,7 @@ import Signin from './pages/Signin'
 import Signup from './pages/Signup'
 import Home from './pages/Home'
 import './index.css'
+import NewTransaction from './pages/NewTransaction';
 
 const router = createBrowserRouter([
   
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: < Signup/>,
   },
+  {
+    path: "transaction/:type",
+    element: <NewTransaction/>
+    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -20,11 +20,8 @@ export default function Home(){
 
     async function getUserLogged() {
         try{
-        const response = await userLogged();
-        console.log(response.status);
-        
-        
-        setUser(response.data);    
+            const response = await userLogged();       
+            setUser(response.data);    
         }catch(error){
             console.log(error);
             alert(error.message);
@@ -78,8 +75,8 @@ export default function Home(){
                     </section>
 
             <footer className='w-full pt-2 flex gap-2 text-white text-lg font-bold'>
-                    <Button text="New Input" type="button" icon="plus"/>
-                    <Button text="New Output" type="button" icon="minus"/>
+                    <Button text="New Input" type="button" icon="plus" transactionType="input"/>
+                    <Button text="New Output" type="button" icon="minus" transactionType="output"/>
             </footer>
 
         </main>
