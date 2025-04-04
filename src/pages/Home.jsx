@@ -5,11 +5,13 @@ import Button from '../components/Button';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { userLogged } from '../services/user';
+import { findAllTransactions } from '../services/transactions';
 
 export default function Home(){
 
     const navigate = useNavigate();
     const [user, setUser] = useState({});
+    const [transactions, setTransactions] = useState([])
 
     function validateToken(){
         const token  = Cookies.get('token');      
@@ -35,10 +37,21 @@ export default function Home(){
         }
         
     }
+
+    async function getAllTransactions() {
+        try{
+            const response = await findAllTransactions();
+            setTransactions(response.data);
+        }catch(error){
+            console.log(error);
+            
+        }
+    }
         
     useEffect(()=> {
         validateToken();
         getUserLogged();
+        getAllTransactions();
     }, []);
 
     return (
@@ -56,8 +69,13 @@ export default function Home(){
             </header>
 
             <section className='bg-zinc-300 p-4 w-full h-full rounded flex items-center justify-center'>
-                <p>Nenhuma entrada ou saída</p>
-            </section>
+               {transactions.length ? (
+                        <p>Foram Encontradas {transactions.length} transações</p>
+                    ) : (
+                        <p>Nenhuma transação encontrada</p>
+
+                    )}
+                    </section>
 
             <footer className='w-full pt-2 flex gap-2 text-white text-lg font-bold'>
                     <Button text="New Input" type="button" icon="plus"/>
