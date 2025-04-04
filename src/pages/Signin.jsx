@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
@@ -11,6 +11,8 @@ import Cookies from 'js-cookie';
 
 
 export default function Signin(){
+
+    const navigate = useNavigate();
     const {register, 
         handleSubmit, 
         formState: {errors}
@@ -20,6 +22,7 @@ export default function Signin(){
         try{
             const token = await signin(data);
             Cookies.set('token', token.data, {expires: 1})
+            navigate("/home");
         }catch(e){
             console.log(e);
         } 
