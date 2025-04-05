@@ -6,12 +6,14 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { userLogged } from '../services/user';
 import { findAllTransactions } from '../services/transactions';
+import dayjs from 'dayjs';
 
 export default function Home(){
 
     const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [transactions, setTransactions] = useState([])
+    const [balance, setBalance] = useState(0) 
 
     function validateToken(){
         const token  = Cookies.get('token');      
@@ -30,19 +32,27 @@ export default function Home(){
                 navigate("/signin");
                 return;
             }
-            
         }
-        
     }
 
     async function getAllTransactions() {
         try{
             const response = await findAllTransactions();
             setTransactions(response.data);
+            calculateBalance(response.data);
         }catch(error){
             console.log(error);
-            
         }
+    }
+
+    function calculateBalance(transactions) {
+        let total = 0;
+        transactions.map((e) => (e.type=="input")
+            ? total+=e.value 
+            : total-=e.value
+        );
+        
+        setBalance(total);
     }
         
     useEffect(()=> {
@@ -65,13 +75,43 @@ export default function Home(){
                 </div>
             </header>
 
-            <section className='bg-zinc-300 p-4 w-full h-full rounded flex items-center justify-center'>
-               {transactions.length ? (
-                        <p>Foram Encontradas {transactions.length} transações</p>
-                    ) : (
-                        <p>Nenhuma transação encontrada</p>
-
-                    )}
+            <section className='bg-zinc-300 p-4 w-full h-full rounded flex items-center justify-center'>  
+               { transactions.length ? (
+                    <ul className='w-full h-full flex flex-col justify-between'>
+                        <div className='h-[17rem] overflow-auto p-3'>
+                            {transactions.map((transaction, index) => (
+                                <li key={index} className='flex justify-between items-start w-full'>
+                              
+                                    <span className='flex items-center gap-2'>
+                                        <span className='text-zinc-500'>
+                                            {dayjs(transaction.createdAt).format("DD/MM/YY")}
+                                        </span>
+                                        {transaction.description}
+                                    </span>
+                                    <span className={
+                                            (transaction.type === 'input')
+                                            ?"text-green-500"
+                                            :"text-red-500"
+                                        }>
+                                        {transaction.value}
+                                    </span>
+                                </li>
+                            ) )}
+                        </div>
+                        <li className='flex justify-between items-start w-full'>
+                            <span>Total</span>
+                            <span className={
+                                (balance > 0 )
+                                ?"text-green-500"
+                                :"text-red-500"}>
+                                {balance}
+                            </span>
+                            
+                            </li>
+                    </ul>
+                ) : (
+                    <p>Nenhuma transação encontrada</p>
+                )}
                     </section>
 
             <footer className='w-full pt-2 flex gap-2 text-white text-lg font-bold'>

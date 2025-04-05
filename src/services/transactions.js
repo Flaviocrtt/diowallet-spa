@@ -8,3 +8,10 @@ export async function findAllTransactions(){
     });
     return response;
 }
+
+export async function createNewTransaction(body){
+    const response = axios.post(BASE_URL + '/transaction/create', body, {
+        headers: {Authorization: 'Bearer ' + Cookies.get('token')}
+    });
+    return response;
+}

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,9 +7,11 @@ import { transactionSchema } from "../schemas/transactionSchema";
 import Input from "../components/Input";
 import ErrorInput from "../components/ErrorInput";
 import Button from "../components/Button";
+import {createNewTransaction } from "../services/transactions";
 
 export default function NewTransaction(){
     const { type } = useParams();
+    const navigate = useNavigate();
 
     const {
         register, 
@@ -17,14 +19,23 @@ export default function NewTransaction(){
         formState: {errors}
     } = useForm({resolver: zodResolver(transactionSchema)});
 
-    function handleSubmitForm(data){
-        console.log(data);
+    async function handleSubmitForm(data){
+        try{
+            const body = {...data, type };
+            console.log(body);
+            
+            const response = await createNewTransaction(body);
+            console.log(response);
+           navigate("/home")
+        }catch(e){
+            console.log(e);
+        }        
     }
 
     return (
-    <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 w-[35rem] h-[35rem] relative">
-        <header className="flex items-start">
-            <Link to="/home" className="hover:text-sky-600">
+    <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 gap-7 relative">
+        <header className="">
+            <Link to="/home">
                 <BiArrowBack className="text-white absolute top-3 left-3 text-2xl"/>
             </Link>
             <h1 className="text-2xl text-white font-bold">New {type}</h1>
