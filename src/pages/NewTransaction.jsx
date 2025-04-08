@@ -43,7 +43,7 @@ export default function NewTransaction(){
             </Link>
             <h1 className="text-2xl text-white font-bold">New {type}</h1>
         </header>
-        <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-4 w-full text-2xl">
+        <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-3 w-full text-2xl">
             {apiError && <ErrorInput text={apiError}/> }
             <Input type="number" placeholder="Value" name="value" register={register}/>
             {errors.value && <ErrorInput text={errors.value.message}/> }

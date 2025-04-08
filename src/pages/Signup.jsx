@@ -38,7 +38,7 @@ export default function Signup(){
             </Link>
             <img src={logo} alt="logo" className="w-44" />
             
-            <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-4 w-full text-2xl">
+            <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-3 w-full text-2xl">
                 {apiError && <ErrorInput text={apiError}/> }
                 <Input type="text" placeholder="name" name="name" register={register}/>
                 {errors.name && <ErrorInput text={errors.name.message}/> }

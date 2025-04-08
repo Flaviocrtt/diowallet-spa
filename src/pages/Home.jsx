@@ -70,7 +70,9 @@ export default function Home(){
             <header className="flex items-center justify-between w-full pb-4">
                 <img src={logo} alt="logo" className='w-32'/>
                 <div className="flex items-center gap-4 text-white text-2xl">
-                    <h1>Olá, {user.name}</h1>
+                    <Link to="/userprofile">
+                        <h1>Olá, {user.name}</h1>
+                    </Link>
                     <Link to="/signin">
                         <GoSignOut/>
                     </Link>

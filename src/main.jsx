@@ -10,30 +10,36 @@ import Home from './pages/Home'
 import './index.css'
 import NewTransaction from './pages/NewTransaction';
 import ErrorPage from './pages/ErrorPage';
+import UserProfile from './pages/UserProfile';
 
 const router = createBrowserRouter([
   
   {
     path: "/",
-    element: < Home/>,
-    errorElement: <ErrorPage/>
+    element: < Home />,
+    errorElement: < ErrorPage />
   },
   {
     path: "/home",
-    element: < Home/>,
+    element: < Home />,
   },
   {
     path: "/signin",
-    element: < Signin/>,
+    element: < Signin />,
   },
   {
     path: "/signup",
-    element: < Signup/>,
+    element: < Signup />,
   },
   {
     path: "transaction/:type",
-    element: <NewTransaction/>
-    }
+    element: < NewTransaction />
+  },
+  {
+    path: "userprofile",
+    element: < UserProfile />
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

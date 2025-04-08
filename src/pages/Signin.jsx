@@ -38,7 +38,7 @@ export default function Signin(){
     return (
         <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 w-[35rem] h-[35rem]">
             <img src={logo} alt="logo" className="w-44" />
-            <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-4 w-full text-2xl">
+            <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-3 w-full text-2xl">
                 {apiError && <ErrorInput text={apiError}/> }
                 <Input type="email" placeholder="email" name="email" register={register}/>
                 {errors.email && <ErrorInput text={errors.email.message}/>}             
