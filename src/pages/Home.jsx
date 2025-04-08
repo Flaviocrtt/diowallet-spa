@@ -7,13 +7,15 @@ import { useEffect, useState } from 'react';
 import { userLogged } from '../services/user';
 import { findAllTransactions } from '../services/transactions';
 import dayjs from 'dayjs';
+import ErrorInput from '../components/ErrorInput';
 
 export default function Home(){
 
     const navigate = useNavigate();
     const [user, setUser] = useState({});
-    const [transactions, setTransactions] = useState([])
-    const [balance, setBalance] = useState(0) 
+    const [transactions, setTransactions] = useState([]);
+    const [balance, setBalance] = useState(0); 
+    const [apiError, setApiError] = useState(); 
 
     function validateToken(){
         const token  = Cookies.get('token');      
@@ -25,13 +27,13 @@ export default function Home(){
             const response = await userLogged();       
             setUser(response.data);    
         }catch(error){
-            console.log(error);
-            alert(error.message);
             if(error.status == 401){
                 Cookies.remove('token');
+                alert(error.message);
                 navigate("/signin");
                 return;
             }
+            setApiError(error.message);
         }
     }
 
@@ -74,9 +76,11 @@ export default function Home(){
                     </Link>
                 </div>
             </header>
-
+            <div className='w-full flex items-center justify-center'>
+                {apiError && <ErrorInput className='w-full' text={apiError}/> }
+            </div>
             <section className='bg-zinc-300 p-4 w-full h-full rounded flex items-center justify-center'>  
-               { transactions.length ? (
+                { transactions.length ? (
                     <ul className='w-full h-full flex flex-col justify-between'>
                         <div className='h-[17rem] overflow-auto p-3'>
                             {transactions.map((transaction, index) => (

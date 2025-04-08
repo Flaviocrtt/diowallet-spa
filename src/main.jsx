@@ -9,12 +9,14 @@ import Signup from './pages/Signup'
 import Home from './pages/Home'
 import './index.css'
 import NewTransaction from './pages/NewTransaction';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   
   {
     path: "/",
     element: < Home/>,
+    errorElement: <ErrorPage/>
   },
   {
     path: "/home",

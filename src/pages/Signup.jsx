@@ -8,13 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorInput from "../components/ErrorInput";
 import { signupSchema } from "../schemas/signupSchema";
 import { signup } from "../services/user";
+import { useState } from "react";
 
 export default function Signup(){
 
-       const {register, 
-           handleSubmit, 
-           formState: {errors}
-       } =  useForm({resolver: zodResolver(signupSchema)});
+        const [apiError, setApiError] = useState(); 
+        const {register, 
+            handleSubmit, 
+            formState: {errors}
+        } =  useForm({resolver: zodResolver(signupSchema)});
    
        const navigate = useNavigate();
 
@@ -23,8 +25,9 @@ export default function Signup(){
             const response = await signup(data);
             console.log(response);
             navigate("/signin");
-        }catch(e){
-            console.log(e);
+        }catch(error){
+            setApiError(error.message);
+            console.log(error);
         }        
     }
 
@@ -36,6 +39,7 @@ export default function Signup(){
             <img src={logo} alt="logo" className="w-44" />
             
             <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-4 w-full text-2xl">
+                {apiError && <ErrorInput text={apiError}/> }
                 <Input type="text" placeholder="name" name="name" register={register}/>
                 {errors.name && <ErrorInput text={errors.name.message}/> }
                 <Input type="email" placeholder="email" name="email" register={register}/>

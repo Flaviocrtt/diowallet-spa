@@ -8,10 +8,12 @@ import Input from "../components/Input";
 import ErrorInput from "../components/ErrorInput";
 import Button from "../components/Button";
 import {createNewTransaction } from "../services/transactions";
+import { useState } from "react";
 
 export default function NewTransaction(){
     const { type } = useParams();
     const navigate = useNavigate();
+    const [apiError, setApiError] = useState();
 
     const {
         register, 
@@ -27,8 +29,9 @@ export default function NewTransaction(){
             const response = await createNewTransaction(body);
             console.log(response);
            navigate("/home")
-        }catch(e){
-            console.log(e);
+        }catch(error){
+            setApiError(error.message);
+            console.log(error);
         }        
     }
 
@@ -41,7 +44,7 @@ export default function NewTransaction(){
             <h1 className="text-2xl text-white font-bold">New {type}</h1>
         </header>
         <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col justify-center gap-4 w-full text-2xl">
-
+            {apiError && <ErrorInput text={apiError}/> }
             <Input type="number" placeholder="Value" name="value" register={register}/>
             {errors.value && <ErrorInput text={errors.value.message}/> }
 
