@@ -7,6 +7,7 @@ export default function Input({ type, label, placeholder, name, register, disabl
                 type={type}
                 placeholder={placeholder}
                 name={name}
+                id={name}
                 className="rounded p-2 w-full"
                 {...register(name)}
                 disabled={disabled}
