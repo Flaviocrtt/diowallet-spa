@@ -13,7 +13,7 @@ export default function Button({type, text, icon, transactionType}){
         <button
             type={type}
             className="px-4 py-2 rounded w-full font-bold text-white text-2xl bg-indigo-600 flex items-center justify-center gap-2"
-            onClick={ () => { transactionType && navigate('/transaction/' + transactionType)}} >
+            onClick={ () => { transactionType && navigate('/transaction/new/' + transactionType)}} >
             {IconConponnent && <IconConponnent/>}
             {text} 
         </button>

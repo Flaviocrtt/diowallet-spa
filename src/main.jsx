@@ -32,7 +32,11 @@ const router = createBrowserRouter([
     element: < Signup />,
   },
   {
-    path: "transaction/:type",
+    path: "transaction/new/:type",
+    element: < NewTransaction />
+  },
+  {
+    path: "transaction/edit/:_id",
     element: < NewTransaction />
   },
   {

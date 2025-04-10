@@ -86,22 +86,25 @@ export default function Home(){
                     <ul className='w-full h-full flex flex-col justify-between'>
                         <div className='h-[17rem] overflow-auto p-3'>
                             {transactions.map((transaction, index) => (
-                                <li key={index} className='flex justify-between items-start w-full'>
-                              
-                                    <span className='flex items-center gap-2'>
-                                        <span className='text-zinc-500'>
-                                            {dayjs(transaction.createdAt).format("DD/MM/YY")}
+                                
+                                <Link to={"/transaction/edit/" + transaction._id} key={index}>
+                                    <li key={index} className='flex justify-between items-start w-full'>
+                                
+                                        <span className='flex items-center gap-2'>
+                                            <span className='text-zinc-500'>
+                                                {dayjs(transaction.createdAt).format("DD/MM/YY")}
+                                            </span>
+                                            {transaction.description}
                                         </span>
-                                        {transaction.description}
-                                    </span>
-                                    <span className={
-                                            (transaction.type === 'input')
-                                            ?"text-green-500"
-                                            :"text-red-500"
-                                        }>
-                                        {transaction.value}
-                                    </span>
-                                </li>
+                                        <span className={
+                                                (transaction.type === 'input')
+                                                ?"text-green-500"
+                                                :"text-red-500"
+                                            }>
+                                            {transaction.value}
+                                        </span>
+                                    </li>
+                                </Link>
                             ) )}
                         </div>
                         <li className='flex justify-between items-start w-full'>

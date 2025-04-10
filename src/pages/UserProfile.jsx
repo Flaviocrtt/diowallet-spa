@@ -1,6 +1,4 @@
-import logo from '../assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { GoSignOut } from "react-icons/go";
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { userLogged } from '../services/user';
@@ -34,7 +32,7 @@ export default function UserProfile(){
         
     useEffect(()=> {
         getUserLogged();
-    }, []);
+    });
 
     return (
         <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 gap-4">
