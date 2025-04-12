@@ -63,7 +63,6 @@ export default function NewTransaction(){
         }
     }, []);
 
-//todo: não permite editar o 'select' tipo de transação
     return (
         
     <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 gap-4">
@@ -92,11 +91,13 @@ export default function NewTransaction(){
                     name="type" 
                     id="type" 
                     {...register("type")} 
-                    value={transaction.type} 
                 >
                     <option value="">Select</option>
-                    <option value="input">Input</option>
-                    <option value="output">Output</option>
+                    {transaction.type=="input" && <option value="input" selected> Input</option>} 
+                    {transaction.type!="input" && <option value="input" > Input</option>} 
+                       
+                    {transaction.type=="output" && <option value="output" selected>Output</option>}
+                    {transaction.type!="output" && <option value="output">Output</option>}
                 </select>
             }
             <Button type="submit" text="SAVE"/>
