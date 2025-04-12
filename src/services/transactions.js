@@ -15,14 +15,23 @@ export async function createNewTransaction(body){
     });
     return response;
 }
+
 export async function getTransactionById(id){
     const response = axios.get(BASE_URL + '/transaction/get/' + id, {
         headers: {Authorization: 'Bearer ' + Cookies.get('token')}
     });
     return response;
 }
+
 export async function updateTransaction(id, body){
     const response = axios.put(BASE_URL + '/transaction/update/' + id, body, {
+        headers: {Authorization: 'Bearer ' + Cookies.get('token')}
+    });
+    return response;
+}
+
+export async function deleteTransaction(id){
+    const response = axios.delete(BASE_URL + '/transaction/delete/' + id, {
         headers: {Authorization: 'Bearer ' + Cookies.get('token')}
     });
     return response;

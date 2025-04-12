@@ -31,16 +31,14 @@ export default function NewTransaction(){
         
         try{
             if(_id){
-                //const body = {...data, type };
                 const response = await updateTransaction(_id, data);
                 console.log(response);
 
             }else{
-                //const body = {...data, type };
                 const response = await createNewTransaction(data);
                 console.log(response);
             }
-                navigate("/home")
+            navigate("/home")
         }catch(error){
             setApiError(error.message);
             console.log(error);

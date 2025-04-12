@@ -1,11 +1,12 @@
 import logo from '../assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoSignOut } from "react-icons/go";
+import { MdOutlineDelete } from "react-icons/md";
 import Button from '../components/Button';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { userLogged } from '../services/user';
-import { findAllTransactions } from '../services/transactions';
+import { deleteTransaction, findAllTransactions } from '../services/transactions';
 import dayjs from 'dayjs';
 import ErrorInput from '../components/ErrorInput';
 
@@ -44,6 +45,15 @@ export default function Home(){
             calculateBalance(response.data);
         }catch(error){
             console.log(error);
+        }
+    }
+
+    async function deleteCurrentTransaction(id) {
+        try {
+            await deleteTransaction(id)
+            getAllTransactions();
+        } catch (error) {
+            setApiError(error.message);
         }
     }
 
@@ -86,25 +96,30 @@ export default function Home(){
                     <ul className='w-full h-full flex flex-col justify-between'>
                         <div className='h-[17rem] overflow-auto p-3'>
                             {transactions.map((transaction, index) => (
-                                
-                                <Link to={"/transaction/edit/" + transaction._id} key={index}>
-                                    <li key={index} className='flex justify-between items-start w-full'>
-                                
-                                        <span className='flex items-center gap-2'>
-                                            <span className='text-zinc-500'>
-                                                {dayjs(transaction.createdAt).format("DD/MM/YY")}
+                                <div key={index} className='flex justify-between items-start w-full gap-1'>  
+                                    <Link to={"/transaction/edit/" + transaction._id} className='w-full' >
+                                        <li className='flex justify-between items-start w-full'>
+                                    
+                                            <span className='flex items-center gap-2'>
+                                                <span className='text-zinc-500'>
+                                                    {dayjs(transaction.createdAt).format("DD/MM/YY")}
+                                                </span>
+                                                {transaction.description}
                                             </span>
-                                            {transaction.description}
-                                        </span>
-                                        <span className={
-                                                (transaction.type === 'input')
-                                                ?"text-green-500"
-                                                :"text-red-500"
-                                            }>
-                                            {transaction.value}
-                                        </span>
-                                    </li>
-                                </Link>
+                                            <span className={
+                                                    (transaction.type === 'input')
+                                                    ?"text-green-500"
+                                                    :"text-red-500"
+                                                }>
+                                                {transaction.value}
+                                            </span>
+                                        </li>
+                                    </Link>
+                                    <MdOutlineDelete 
+                                        className='h-full self-center cursor-pointer'
+                                        onClick={() => {if(confirm("Delete this transaction?")) deleteCurrentTransaction(transaction._id)}}
+                                    />
+                                </div>
                             ) )}
                         </div>
                         <li className='flex justify-between items-start w-full'>
